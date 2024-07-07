@@ -1,0 +1,106 @@
+##Project 1 Songs addition counter<br>
+🎶🎶🎶🎶🎶🎶
+//app.jsx
+
+import React, { useState } from 'react'
+import Card from './Components/Card'
+import Navbar from './Components/Navbar'
+function App() {
+  
+const data=[
+{image:"https://a10.gaanacdn.com/gn_img/artists/Dk9KNk23Bx/k9KNqJJbBx/size_m_1716815348.jpg",name:"Tera Fitoor",artist:"Arijit Singh",added:false},
+{image:"https://a10.gaanacdn.com/gn_img/artists/9MAWe7KyJe/MAWe9lBGWy/size_m_1716892787.jpg",name:"Dj Wale Babu",artist:"Baadshah",added:false},
+{image:"https://a10.gaanacdn.com/gn_img/artists/9En3pqeWXD/En3pQZ9WXD/size_m_1716893835.jpg",name:"Vande Matram",artist:"A.r Rehman",added:false},
+{image:"https://a10.gaanacdn.com/gn_img/artists/6Zxb2r7b9w/Zxb2xp0w39/size_m_1720177985.jpg",name:"Teri Mitti",artist:"B Praak",added:false},
+{image:"https://a10.gaanacdn.com/gn_img/artists/z8k3y13rxo/8k3yDjnnKr/size_m_1716895027.jpg",name:"Lahore",artist:"Guru Randhawa",added:false},
+{image:"https://a10.gaanacdn.com/gn_img/artists/10q3ZR1352/0q3Z6Lg135/size_m_1716892887.jpg",name:"Aashique",artist:"Jubin Nautiyal",added:false},
+{image:"https://a10.gaanacdn.com/gn_img/artists/ZaP37OR3Dy/ZaP37lBWDy/size_m_1716892417.jpg",name:"Chhithiye",artist:"Lata Mangeshkar",added:false},
+{image:"https://a10.gaanacdn.com/gn_img/artists/10q3Z1K52r/10q3Z1K52r/size_m_1717411303.jpg",name:"Ghoomar",artist:"Shreya Ghosal",added:false},
+];
+
+const[songData,setSongData]=useState(data);
+
+
+const handleClick=(changingIndex)=>{
+setSongData((prev)=>{
+  return prev.map((item,index)=>{
+    if(index===changingIndex){
+     return {...item,added:!item.added};
+    }
+    return item;
+  })
+})
+}
+
+  return (
+    <>
+    <div className='w-full h-screen  bg-zinc-200  '>
+      <Navbar data={songData}/>
+
+      <div  className='px-20 flex gap-10 mt-10 flex-wrap'>
+       {songData.map((items,index)=>{
+         return <Card data={items} handleClick={handleClick} index={index} key={index} />
+       })}
+      </div>
+    </div>
+    </>
+  )
+}
+
+export default App
+
+
+
+
+//Card.jsx
+
+
+import React from 'react'
+
+function Card({data,handleClick,index}) {
+
+  const {image,artist,added,name}=data;
+  return (
+    <>
+      <div className='w-60 bg-zinc-100 p-4 rounded-md flex gap-4 pb-8 relative mt-20'>
+        <div className='w-20 h-20 bg-orange-600 rounded-md overflow-hidden'>
+          <img  className='w-full h-full object-cover' src={image} alt=""/>
+        </div>
+        <div className=''>
+           <h3 className='text-xl font-semibold'>{name}</h3>
+           <h6 className='text-sm '>{artist}</h6>
+         </div>
+         <button onClick={()=>handleClick(index)} className={`px-4 py-3 whitespace-nowrap ${added?"bg-orange-600":"bg-teal-700"} bottom-0 absolute rounded-full text-white text-xs left-1/2 -translate-x-[50%]  translate-y-[50%]`}>
+          {added?"Added":"Add To Favourites"}
+         </button>
+      </div>
+    </>
+  )
+}
+
+export default Card
+
+
+
+//Navbar.jsx
+
+import React from 'react'
+function Navbar({data}) {
+
+  return (
+    <div className='w-full px-20 py-3 flex justify-between items-center'>
+     <h3>Orange</h3>
+     <div className='flex p-2 px-4  bg-orange-600 text-white rounded-md text-sm gap-3 '>
+        <h3>Favourites</h3>
+        {/* single item return karane k lie => value bas bhai */}
+        <h4>{data.filter((item)=>
+            item.added
+        ).length}</h4>
+     </div>
+    </div>
+  )
+}
+
+export default Navbar
+
+
